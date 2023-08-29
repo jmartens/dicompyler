@@ -2,7 +2,7 @@ dicompyler-core[image]>=0.5.2
 wxPython>=4.0.0b2
 matplotlib>=2.2,<3.8
 numpy>=1.13.1
-https://github.com/darcymason/pydicom/archive/master.zip
+pydicom>=2.2,<3
 
 # Fix #131
 PyPubSub

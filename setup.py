@@ -14,7 +14,7 @@ requires = [
     'numpy>=1.2.1',
     'pillow>=1.0',
     'dicompyler-core>=0.5.2',
-    'pydicom>=0.9.9',
+    'pydicom>=2.2,<3',
     'wxPython>=4.0.0b2']
 
 setup(
@@ -27,8 +27,7 @@ setup(
                    'baseplugins/*.py', 'baseplugins/*.xrc']},
     zip_safe=False,
     install_requires=requires,
-    dependency_links=[
-        'git+https://github.com/darcymason/pydicom.git#egg=pydicom-1.0.0'],
+    dependency_links=[],
     entry_points={'console_scripts': ['dicompyler = dicompyler.main:start']},
 
     # metadata for upload to PyPI
@@ -87,5 +86,5 @@ setup(
     - numpy 1.3.1 or higher
     - Pillow 1.0 or higher
     - dicompyler-core 0.5.2 or higher
-    - pydicom 0.9.9 or higher""",
+    - pydicom 2.2 or higher""",
 )
