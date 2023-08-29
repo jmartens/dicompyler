@@ -17,3 +17,18 @@ repos:
     -   id: pyupgrade
         args:
           - --py37-plus
+-   repo: https://github.com/akaihola/darker
+    rev: 1.7.2
+    hooks:
+    -   id: darker
+        args: [
+            --isort,
+            --flynt,
+            --target-version, py37,
+            --target-version, py38,
+            --target-version, py39,
+            --target-version, py310,
+            --target-version, py311]
+        additional_dependencies:
+          - isort>=5.0.1
+          - flynt<0.78,>=0.76
