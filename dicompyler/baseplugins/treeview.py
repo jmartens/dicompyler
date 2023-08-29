@@ -184,7 +184,7 @@ class pluginTreeView(wx.Panel):
                         str(len(data_element.value)) + ' bytes'
                 # Account for Unknown VRs
                 elif ((data_element.VR == 'UN') and
-                      type(data_element.value) != str):
+                      not isinstance(data_element.value, str)):
                     value = data_element.repval
                 else:
                     # Apply the DICOM character encoding to the data element
