@@ -451,7 +451,7 @@ class plugin2DView(wx.Panel):
             # Draw the isodoses if present
             if len(self.isodoses):
                 grid = self.dose.GetDoseGrid(float(self.z))
-                if not (grid == []):
+                if grid != []:
                     x, y = np.meshgrid(
                         np.arange(grid.shape[1]), np.arange(grid.shape[0]))
                     # Instantiate the isodose generator for this slice
@@ -566,11 +566,11 @@ class plugin2DView(wx.Panel):
 
             # Lookup the current dose plane and find the value of the current
             # pixel, if the dose has been loaded
-            if not (self.dose == []):
+            if self.dose != []:
                 xdpos = np.argmin(np.fabs(np.array(self.dosepixlut[0]) - xpos))
                 ydpos = np.argmin(np.fabs(np.array(self.dosepixlut[1]) - ypos))
                 dosegrid = self.dose.GetDoseGrid(float(self.z))
-                if not (dosegrid == []):
+                if dosegrid != []:
                     dose = dosegrid[ydpos, xdpos] * \
                         self.dosedata['dosegridscaling']
                     value = value + " / Dose: " + \

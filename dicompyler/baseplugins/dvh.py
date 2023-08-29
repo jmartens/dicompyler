@@ -207,7 +207,7 @@ class pluginDVH(wx.Panel):
             dvh = self.dvhs[self.structureid]
 
         # Check if the function was called via an event or not
-        if not (evt == None):
+        if evt != None:
             constrainttype = evt.GetInt()
         else:
             constrainttype = self.choiceConstraint.GetSelection()
@@ -249,7 +249,7 @@ class pluginDVH(wx.Panel):
         """Update the results when the constraint value changes."""
 
         # Check if the function was called via an event or not
-        if not (evt == None):
+        if evt != None:
             slidervalue = evt.GetInt()
         else:
             slidervalue = self.sliderConstraint.GetValue()

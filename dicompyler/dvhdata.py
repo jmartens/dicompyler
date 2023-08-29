@@ -84,7 +84,7 @@ def CalculateVolume(structure):
         area = contours[largestIndex]['area']
         for i, contour in enumerate(contours):
             # Skip if this is the largest contour
-            if not (i == largestIndex):
+            if i != largestIndex:
                 contour['inside'] = False
                 for point in contour['data']:
                     if PointInPolygon(point[0], point[1], contours[largestIndex]['data']):

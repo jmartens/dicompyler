@@ -78,7 +78,7 @@ class guiDVH:
         # if the structure color is white, change it to black
 
         dose = np.arange(len(dvh))
-        if not (scaling == None):
+        if scaling != None:
             dose = dose * scaling[structure['id']]
         name = prefix + ' ' + \
             structure['name'] if prefix else structure['name']

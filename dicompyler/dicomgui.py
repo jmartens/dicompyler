@@ -252,13 +252,13 @@ class DicomImporterDialog(wx.Dialog):
                             wx.CallAfter(foundFunc, patient)
                         # Create each Study but don't create one for RT Dose
                         # since some vendors use incorrect StudyInstanceUIDs
-                        if not (dp.GetSOPClassUID() == 'rtdose'):
+                        if dp.GetSOPClassUID() != 'rtdose':
                             stinfo = dp.GetStudyInfo()
                             if not stinfo['id'] in patients[h]['studies']:
                                 patients[h]['studies'][stinfo['id']] = stinfo
                         # Create each Series of images
                         if (('ImageOrientationPatient' in dp.ds) and
-                                not (dp.GetSOPClassUID() == 'rtdose')):
+                                dp.GetSOPClassUID() != 'rtdose'):
                             seinfo = dp.GetSeriesInfo()
                             seinfo['numimages'] = 0
                             seinfo['modality'] = dp.ds.SOPClassUID.name
@@ -354,7 +354,7 @@ class DicomImporterDialog(wx.Dialog):
         self.lblProgressPercent.SetLabel(str(percentDone))
         self.lblProgress.SetLabel(message)
 
-        if not (percentDone == 100):
+        if percentDone != 100:
             self.gaugeProgress.Show(True)
             self.lblProgressPercent.Show(True)
             self.lblProgressPercentSym.Show(True)
@@ -736,7 +736,7 @@ class DicomImporterDialog(wx.Dialog):
                 self.patient = {}
                 self.patient['rxdose'] = RxDose
             if (('ImageOrientationPatient' in dp.ds) and
-                    not (dp.GetSOPClassUID() == 'rtdose')):
+                    dp.GetSOPClassUID() != 'rtdose'):
                 if not 'images' in self.patient:
                     self.patient['images'] = []
                 self.patient['images'].append(dp.ds)
@@ -780,12 +780,10 @@ class DicomImporterDialog(wx.Dialog):
                 sort = 'IPP'
             else:
                 # Otherwise sort by Instance Number
-                if not (images[0].InstanceNumber ==
-                        images[1].InstanceNumber):
+                if images[0].InstanceNumber != images[1].InstanceNumber:
                     sort = 'InstanceNumber'
                 # Otherwise sort by Acquisition Number
-                elif not (images[0].AcquisitionNumber ==
-                          images[1].AcquisitionNumber):
+                elif images[0].AcquisitionNumber != images[1].AcquisitionNumber:
                     sort = 'AcquisitionNumber'
 
             # Add the sort descriptor to a list to be sorted

@@ -111,7 +111,7 @@ class pluginTreeView(wx.Panel):
 
         choiceItem = event.GetInt()
         # Load the dataset chosen from the choice control
-        if not (choiceItem == 0):
+        if choiceItem != 0:
             dataset = self.choiceDICOM.GetClientData(choiceItem)
         else:
             return
@@ -148,7 +148,7 @@ class pluginTreeView(wx.Panel):
                 if (i == length-1):
                     wx.CallAfter(progressFunc, i, len(ds), 'Done')
             # Add the data_element to the tree if not a sequence element
-            if not (data_element.VR == 'SQ'):
+            if data_element.VR != 'SQ':
                 cs = ds.get('SpecificCharacterSet', "ISO_IR 6")
                 wx.CallAfter(addItemFunc, data_element, parent, cs=cs)
             # Otherwise add the sequence element to the tree
@@ -171,12 +171,12 @@ class pluginTreeView(wx.Panel):
         """Add a new item to the DICOM tree."""
 
         # Set the item if it is a child of a sequence element
-        if not (sq_element_text == ""):
+        if sq_element_text != "":
             item = self.tlcTreeView.AppendItem(parent, text=sq_element_text)
         else:
             item = self.tlcTreeView.AppendItem(parent, text=data_element.name)
             # Set the value if not a sequence element
-            if not (data_element.VR == 'SQ'):
+            if data_element.VR != 'SQ':
                 value = data_element.value
                 # Account for Pixel data
                 if (data_element.name == 'Pixel Data'):
@@ -184,7 +184,7 @@ class pluginTreeView(wx.Panel):
                         str(len(data_element.value)) + ' bytes'
                 # Account for Unknown VRs
                 elif ((data_element.VR == 'UN') and
-                      not (type(data_element.value) == str)):
+                      type(data_element.value) != str):
                     value = data_element.repval
                 else:
                     # Apply the DICOM character encoding to the data element

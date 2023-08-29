@@ -50,7 +50,7 @@ def SetItemsList(wxCtrl, list=[], data=[]):
     for item in list:
         wxCtrl.Append(item)
         # if no data has been given, no need to set the client data
-        if not (data == []):
+        if data != []:
             wxCtrl.SetClientData(i, data[i])
         i = i + 1
     if not (wxCtrl.IsEmpty()):

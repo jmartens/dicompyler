@@ -598,7 +598,7 @@ class MainFrame(wx.Frame):
     def PopulatePlan(self, plan):
         """Populate the patient's plan information."""
 
-        if (len(plan) and not plan['rxdose'] == 1):
+        if (len(plan) and plan['rxdose'] != 1):
             if 'name' in plan:
                 if len(plan['name']):
                     self.lblPlanName.SetLabel(plan['name'])
@@ -848,7 +848,7 @@ class MainFrame(wx.Frame):
             self.toolbar.Realize()
         # For all other tabs, notify that they don't have focus anymore
         for i in range(self.notebook.GetPageCount()):
-            if not (new == i):
+            if new != i:
                 page = self.notebook.GetPage(i)
                 if hasattr(page, 'OnUnfocus'):
                     page.OnUnfocus()

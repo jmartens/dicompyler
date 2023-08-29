@@ -37,7 +37,7 @@ def import_plugins(userpath=None):
     plugins = []
     for p in possibleplugins:
         module = p['plugin'].split('.')[0]
-        if module not in modules and not ((module == "__init__") or (module == "")):
+        if module not in modules and module != "__init__" or (module == ""):
             # only try to import the module once
             modules.append(module)
             try:
@@ -57,7 +57,7 @@ def import_plugins(userpath=None):
                                     'location': p['location']})
                     logger.debug("%s loaded", module)
                 # If the module is a single file, close it
-                if not (description[2] == imp.PKG_DIRECTORY):
+                if description[2] != imp.PKG_DIRECTORY:
                     f.close()
     return plugins
 
