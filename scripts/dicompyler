@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 # dicompyler
 """Script to start dicompyler from source."""
 # Copyright (c) 2009-2017 Aditya Panchal

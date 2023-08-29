@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 # anonymize.py
 """dicompyler plugin that anonymizes DICOM / DICOM RT data."""
 # Copyright (c) 2010-2017 Aditya Panchal

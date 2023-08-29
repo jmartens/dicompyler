@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 # util.py
 """Several utility functions that don't really belong anywhere."""
 # Copyright (c) 2009-2017 Aditya Panchal
@@ -7,7 +6,6 @@
 #    See the file license.txt included with this distribution, also
 #    available at https://github.com/bastula/dicompyler/
 
-from __future__ import with_statement
 import imp
 import os
 import sys
@@ -81,7 +79,7 @@ def get_credits():
 
     developers = []
     artists = []
-    with open(get_text_resources('credits.txt'), 'rU') as cf:
+    with open(get_text_resources('credits.txt')) as cf:
         our_credits = cf.readlines()
         for i, v in enumerate(our_credits):
             if (v == "Lead Developer\n"):

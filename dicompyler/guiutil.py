@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 # guiutil.py
 """Several GUI utility functions that don't really belong anywhere."""
 # Copyright (c) 2009-2017 Aditya Panchal
@@ -174,7 +173,7 @@ class ColorCheckListBox(wx.ScrolledWindow):
 
     def Layout(self):
         self.SetScrollbars(20, 20, 50, 50)
-        super(ColorCheckListBox, self).Layout()
+        super().Layout()
 
     def Append(self, item, data=None, color=None, refresh=True):
         """Add an item to the control."""

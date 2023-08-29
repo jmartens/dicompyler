@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 # quickopen.py
 """dicompyler plugin that allows quick import of DICOM data."""
 # Copyright (c) 2012-2017 Aditya Panchal
@@ -72,7 +71,7 @@ class plugin:
                 logger.debug("Reading: %s", filename)
                 dp = dicomparser.DicomParser(filename)
             # Otherwise show an error dialog
-            except (AttributeError, EOFError, IOError, KeyError):
+            except (AttributeError, EOFError, OSError, KeyError):
                 logger.info("%s is not a valid DICOM file.", filename)
                 dlg = wx.MessageDialog(
                     self.parent, filename + " is not a valid DICOM file.",

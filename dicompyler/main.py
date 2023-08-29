@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 # main.py
 """Main file for dicompyler."""
 # Copyright (c) 2009-2017 Aditya Panchal
@@ -917,7 +916,7 @@ class MainFrame(wx.Frame):
     def OnLicense(self, evt):
         """Show the license document in a new dialog."""
 
-        f = open(util.get_text_resources("license.txt"), "rU")
+        f = open(util.get_text_resources("license.txt"))
         msg = f.read()
         f.close()
 

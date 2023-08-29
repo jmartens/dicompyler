@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 # treeview.py
 """dicompyler plugin that displays a tree view of the DICOM data structure."""
 # Copyright (c) 2010-2017 Aditya Panchal
@@ -13,7 +12,8 @@ from wx.dataview import TreeListCtrl as tlc
 from pubsub import pub
 from wx.xrc import XmlResource, XRCCTRL, XRCID
 import wx
-from six.moves import queue
+
+import queue
 import threading
 import logging
 logger = logging.getLogger('dicompyler.treeview')
@@ -217,7 +217,7 @@ class DICOMTree(tlc):
     """DICOM tree view based on TreeListControl."""
 
     def __init__(self, *args, **kwargs):
-        super(DICOMTree, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.AppendColumn('Name')
         self.AppendColumn('Value')
         self.AppendColumn('Tag')

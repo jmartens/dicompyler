@@ -900,21 +900,21 @@ class FigurePrintout(wx.Printout):
             raise ValueError('invalid aspect ratio')
 
         # PPI_P: Pixels Per Inch of the Printer
-        wPPI_P, hPPI_P = [float(x) for x in self.GetPPIPrinter()]
+        wPPI_P, hPPI_P = (float(x) for x in self.GetPPIPrinter())
         PPI_P = (wPPI_P + hPPI_P)/2.0
 
         # PPI: Pixels Per Inch of the DC
         if self.IsPreview():
-            wPPI, hPPI = [float(x) for x in self.GetPPIScreen()]
+            wPPI, hPPI = (float(x) for x in self.GetPPIScreen())
         else:
             wPPI, hPPI = wPPI_P, hPPI_P
         PPI = (wPPI + hPPI)/2.0
 
         # Pg_Px: Size of the page (pixels)
-        wPg_Px,  hPg_Px = [float(x) for x in self.GetPageSizePixels()]
+        wPg_Px,  hPg_Px = (float(x) for x in self.GetPageSizePixels())
 
         # Dev_Px: Size of the DC (pixels)
-        wDev_Px, hDev_Px = [float(x) for x in self.GetDC().GetSize()]
+        wDev_Px, hDev_Px = (float(x) for x in self.GetDC().GetSize())
 
         # Pg: Size of the page (inches)
         wPg = wPg_Px / PPI_P
@@ -1429,7 +1429,7 @@ class PlotFrame(wx.Frame):
 
         try:
             self.panel.print_figure(fileName)
-        except IOError as e:
+        except OSError as e:
             if e.strerror:
                 err = e.strerror
             else:

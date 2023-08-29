@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 # guidvh.py
 """Class that displays the dose volume histogram via wxPython and matplotlib."""
 # Copyright (c) 2009-2017 Aditya Panchal

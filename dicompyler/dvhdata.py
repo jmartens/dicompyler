@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 # dvhdata.py
 """Class and functions related to dose volume histogram (DVH) data."""
 # Copyright (c) 2009-2017 Aditya Panchal
@@ -54,7 +53,7 @@ def CalculateVolume(structure):
 
     n = 0
     # Iterate over each plane in the structure
-    for sPlane in itervalues(sPlanes):
+    for sPlane in sPlanes.values():
 
         # Calculate the area for each contour in the current plane
         contours = []

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 # 2dview.py
 """dicompyler plugin that displays images, structures and dose in 2D planes."""
 # Copyright (c) 2009-2017 Aditya Panchal
@@ -282,7 +281,7 @@ class plugin2DView(wx.Panel):
             # Create the path for the contour
             path = gc.CreatePath()
             for contour in structure['planes'][list(structure['zkeys'])[index]]:
-                if (contour['type'] == u"CLOSED_PLANAR"):
+                if (contour['type'] == "CLOSED_PLANAR"):
                     # Convert the structure data to pixel data
                     pixeldata = self.GetContourPixelData(
                         self.structurepixlut, contour['data'], prone, feetfirst)

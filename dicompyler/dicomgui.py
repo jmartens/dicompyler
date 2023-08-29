@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 # dicomgui.py
 """Class that imports and returns DICOM data via a wxPython GUI dialog."""
 # Copyright (c) 2009-2017 Aditya Panchal
@@ -237,7 +236,7 @@ class DicomImporterDialog(wx.Dialog):
                     try:
                         logger.debug("Reading: %s", files[n])
                         dp = dicomparser.DicomParser(files[n])
-                    except (AttributeError, EOFError, IOError, KeyError):
+                    except (AttributeError, EOFError, OSError, KeyError):
                         logger.info("%s is not a valid DICOM file.", files[n])
                     else:
                         patient = dp.GetDemographics()

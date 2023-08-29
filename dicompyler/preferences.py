@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 # preferences.py
 """Preferences manager for dicompyler."""
 # Copyright (c) 2011-2017 Aditya Panchal
@@ -77,7 +76,7 @@ class PreferencesManager():
         """Load the saved preference values from disk."""
 
         if os.path.isfile(self.filename):
-            with open(self.filename, mode='r') as f:
+            with open(self.filename) as f:
                 try:
                     self.values = json.load(f)
                 except ValueError:
@@ -462,13 +461,13 @@ def main():
     app.MainLoop()
 
     # Print the results of the preferences
-    with open(filename, mode='r') as f:
+    with open(filename) as f:
         for line in f:
             print(line)
 
     try:
         os.remove(filename)
-    except WindowsError:
+    except OSError:
         print('\nCould not delete: '+filename+'. Please delete it manually.')
 
 

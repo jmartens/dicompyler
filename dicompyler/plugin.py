@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 # plugin.py
 """Plugin manager for dicompyler."""
 # Copyright (c) 2010-2017 Aditya Panchal

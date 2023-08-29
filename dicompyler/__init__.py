@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 # __init__.py
 """Package initialization for dicompyler."""
 # Copyright (c) 2009-2017 Aditya Panchal

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 # dvh.py
 """dicompyler plugin that displays a dose volume histogram (DVH)
     with adjustable constraints via wxPython and matplotlib."""
