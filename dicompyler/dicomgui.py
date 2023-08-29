@@ -690,7 +690,7 @@ class DicomImporterDialog(wx.Dialog):
         self.EnableRxDose(False)
         self.btnSelect.Enable(False)
         # If the item has data, check to see whether there is an rxdose
-        if not (self.tcPatients.GetItemData(item) == None):
+        if self.tcPatients.GetItemData(item) is not None:
             data = self.tcPatients.GetItemData(item)
             self.btnSelect.Enable()
             rxdose = 0
@@ -699,7 +699,7 @@ class DicomImporterDialog(wx.Dialog):
                 rxdose = data['rxdose']
             else:
                 parentdata = self.tcPatients.GetItemData(parent)
-                if not (parentdata == None) and 'rxdose' in parentdata:
+                if parentdata is not None and 'rxdose' in parentdata:
                     rxdose = parentdata['rxdose']
             # Show the rxdose text box if no rxdose was found
             # and if it is an RT plan or RT dose file

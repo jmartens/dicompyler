@@ -34,7 +34,7 @@ class guiDVH:
         axes = fig.gca()
         axes.cla()
         maxlen = 1
-        if not (dvhlist == None):
+        if dvhlist is not None:
             # Enumerate each set of DVHs
             for d, dvhs in enumerate(dvhlist):
                 # Plot the DVH from each set
@@ -48,8 +48,7 @@ class guiDVH:
                             color = colorarray/255
                         else:
                             color = np.zeros(3)
-                        prefix = prefixes[d] if not (
-                            prefixes == None) else None
+                        prefix = prefixes[d] if prefixes is not None else None
                         linestyle = '-' if not (d % 2) else '--'
                         maxlen = self.DrawDVH(dvh, structures[id], axes, color,
                                               maxlen, scalinglist[d],
