@@ -17,7 +17,7 @@ Downloads:
 ----------
 Downloads are available through Google Drive:<br>
 <br>
-Version 0.4.2: [Windows](https://bit.ly/dicompylerwindows) | [Mac](https://bit.ly/dicompylermac) | [Source](https://pypi.python.org/packages/source/d/dicompyler/dicompyler-0.4.2.tar.gz#md5=adbfa47b07f983f17fdba26a1442fce0) | [Test Data](https://bit.ly/dicompylertestdata) - Released July 15th, 2014 - [Release Notes](https://github.com/bastula/dicompyler/wiki/ReleaseNotes) 
+Version 0.4.2: [Windows](https://bit.ly/dicompylerwindows) | [Mac](https://bit.ly/dicompylermac) | [Source](https://pypi.python.org/packages/source/d/dicompyler/dicompyler-0.4.2.tar.gz#md5=adbfa47b07f983f17fdba26a1442fce0) | [Test Data](https://bit.ly/dicompylertestdata) - Released July 15th, 2014 - [Release Notes](https://github.com/bastula/dicompyler/wiki/ReleaseNotes)
 
 Features:
 ---------

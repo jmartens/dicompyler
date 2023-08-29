@@ -57,31 +57,31 @@ setup(
     long_description="""
     dicompyler
     ==========
-    
-    dicompyler is an extensible open source radiation therapy research 
-    platform based on the DICOM standard. It also functions as a 
+
+    dicompyler is an extensible open source radiation therapy research
+    platform based on the DICOM standard. It also functions as a
     cross-platform DICOM RT viewer.
-    
-    dicompyler runs on Windows, Mac and Linux systems and is available in 
-    source and binary versions. Since dicompyler is based on modular 
+
+    dicompyler runs on Windows, Mac and Linux systems and is available in
+    source and binary versions. Since dicompyler is based on modular
     architecture, it is easy to extend it with 3rd party plugins.
-    
+
     Visit the dicompyler _`home page`:
     https://github.com/bastula/dicompyler/ for how-to information and guides.
 
     Getting Help
     ============
 
-    To get help with dicompyler, visit the _`mailing list`: 
-    http://groups.google.com/group/dicompyler/ or follow us on _`twitter`: 
+    To get help with dicompyler, visit the _`mailing list`:
+    http://groups.google.com/group/dicompyler/ or follow us on _`twitter`:
     http://twitter.com/dicompyler
 
     Requirements
     ============
-    
+
     dicompyler requires the following packages to run from source:
-    
-    - Python 2.7 or 3.5 or higher 
+
+    - Python 2.7 or 3.5 or higher
     - wxPython (Phoenix) 4.0.0b2 or higher
     - matplotlib 2.2.0 or higher
     - numpy 1.3.1 or higher

@@ -14,7 +14,7 @@
               </object>
               <object class="sizeritem">
                 <object class="wxPanel" name="panelTreeView">
-                  
+
                   <bg>#FFFFFF</bg>
                   <style>wxSUNKEN_BORDER</style>
                   <object class="wxBoxSizer">
