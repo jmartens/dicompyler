@@ -101,4 +101,3 @@ class plugin:
                         'preferences.requested.values', msg='general.dicom')
         pub.sendMessage('patient.updated.raw_data', msg=patient)
         dlg.Destroy()
-        return

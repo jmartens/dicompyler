@@ -82,7 +82,6 @@ class plugin:
         else:
             pass
         dlgAnonymize.Destroy()
-        return
 
     def AnonymizeDataThread(self, data, path, name, patientid, privatetags,
                             progressFunc):
