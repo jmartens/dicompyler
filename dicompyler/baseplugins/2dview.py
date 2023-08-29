@@ -253,7 +253,7 @@ class plugin2DView(wx.Panel):
 
         # Create an indexing array of z positions of the structure data
         # to compare with the image z position
-        if not "zarray" in structure:
+        if "zarray" not in structure:
             structure['zarray'] = np.array(
                 list(structure['planes'].keys()), dtype=np.float32)
             structure['zkeys'] = structure['planes'].keys()

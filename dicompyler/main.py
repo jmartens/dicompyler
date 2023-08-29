@@ -443,7 +443,7 @@ class MainFrame(wx.Frame):
         wx.CallAfter(progressFunc, 0, 0, 'Processing patient data...')
         patient = {}
 
-        if not 'images' in ptdata:
+        if 'images' not in ptdata:
             # Look for DICOM data in the ptdata dictionary
             for rtdatatype in ptdata.keys():
                 if isinstance(ptdata[rtdatatype], pydicom.dataset.FileDataset):
@@ -467,13 +467,13 @@ class MainFrame(wx.Frame):
             patient['dose'] = dp(ptdata['rtdose'])
         if 'images' in ptdata:
             wx.CallAfter(progressFunc, 80, 100, 'Processing Images...')
-            if not 'id' in patient:
+            if 'id' not in patient:
                 patient.update(dp(ptdata['images'][0]).GetDemographics())
             patient['images'] = []
             for image in ptdata['images']:
                 patient['images'].append(dp(image))
         if 'rxdose' in ptdata:
-            if not 'plan' in patient:
+            if 'plan' not in patient:
                 patient['plan'] = {}
             patient['plan']['rxdose'] = ptdata['rxdose']
         # if the min/max/mean dose was not present, calculate it and save it for each structure
@@ -484,12 +484,12 @@ class MainFrame(wx.Frame):
             for key, structure in patient['structures'].items():
                 # Only calculate DVHs if they are not present for the structure
                 # or recalc all DVHs if the preference is set
-                if ((not (key in patient['dvhs'].keys())) or
+                if ((key not in patient['dvhs'].keys()) or
                         (self.dvhRecalc == 'Always Recalculate DVH')):
                     # Only calculate DVHs for structures, not applicators
                     # and only if the dose grid is present
                     if ((structure['name'].startswith('Applicator')) or
-                            (not "PixelData" in patient['dose'].ds)):
+                            ("PixelData" not in patient['dose'].ds)):
                         continue
                     wx.CallAfter(progressFunc,
                                  10*i/len(patient['structures'])+90, 100,
@@ -622,7 +622,7 @@ class MainFrame(wx.Frame):
 
         # Make sure that the volume has been calculated for each structure
         # before setting it
-        if not 'volume' in self.structures[structure_id]:
+        if 'volume' not in self.structures[structure_id]:
             # Use the volume units from the DVH if they are absolute volume
             if structure_id in self.dvhs and (self.dvhs[structure_id].volume_units == 'cm3'):
                 self.structures[structure_id]['volume'] = self.dvhs[structure_id].volume

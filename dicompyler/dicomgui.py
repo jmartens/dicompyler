@@ -243,10 +243,10 @@ class DicomImporterDialog(wx.Dialog):
                         patient = dp.GetDemographics()
                         h = hashlib.sha1(
                             patient['id'].encode('utf-8')).hexdigest()
-                        if not h in patients:
+                        if h not in patients:
                             patients[h] = {}
                             patients[h]['demographics'] = patient
-                            if not 'studies' in patients[h]:
+                            if 'studies' not in patients[h]:
                                 patients[h]['studies'] = {}
                                 patients[h]['series'] = {}
                             wx.CallAfter(foundFunc, patient)
@@ -254,7 +254,7 @@ class DicomImporterDialog(wx.Dialog):
                         # since some vendors use incorrect StudyInstanceUIDs
                         if dp.GetSOPClassUID() != 'rtdose':
                             stinfo = dp.GetStudyInfo()
-                            if not stinfo['id'] in patients[h]['studies']:
+                            if stinfo['id'] not in patients[h]['studies']:
                                 patients[h]['studies'][stinfo['id']] = stinfo
                         # Create each Series of images
                         if (('ImageOrientationPatient' in dp.ds) and
@@ -262,9 +262,9 @@ class DicomImporterDialog(wx.Dialog):
                             seinfo = dp.GetSeriesInfo()
                             seinfo['numimages'] = 0
                             seinfo['modality'] = dp.ds.SOPClassUID.name
-                            if not seinfo['id'] in patients[h]['series']:
+                            if seinfo['id'] not in patients[h]['series']:
                                 patients[h]['series'][seinfo['id']] = seinfo
-                            if not 'images' in patients[h]:
+                            if 'images' not in patients[h]:
                                 patients[h]['images'] = {}
                             image = {}
                             image['id'] = dp.GetSOPInstanceUID()
@@ -277,7 +277,7 @@ class DicomImporterDialog(wx.Dialog):
                             patients[h]['images'][image['id']] = image
                         # Create each RT Structure Set
                         elif dp.ds.Modality in ['RTSTRUCT']:
-                            if not 'structures' in patients[h]:
+                            if 'structures' not in patients[h]:
                                 patients[h]['structures'] = {}
                             structure = dp.GetStructureInfo()
                             structure['id'] = dp.GetSOPInstanceUID()
@@ -288,7 +288,7 @@ class DicomImporterDialog(wx.Dialog):
                                                       ] = structure
                         # Create each RT Plan
                         elif dp.ds.Modality in ['RTPLAN']:
-                            if not 'plans' in patients[h]:
+                            if 'plans' not in patients[h]:
                                 patients[h]['plans'] = {}
                             plan = dp.GetPlan()
                             plan['id'] = dp.GetSOPInstanceUID()
@@ -300,7 +300,7 @@ class DicomImporterDialog(wx.Dialog):
                             patients[h]['plans'][plan['id']] = plan
                         # Create each RT Dose
                         elif dp.ds.Modality in ['RTDOSE']:
-                            if not 'doses' in patients[h]:
+                            if 'doses' not in patients[h]:
                                 patients[h]['doses'] = {}
                             dose = {}
                             dose['id'] = dp.GetSOPInstanceUID()
@@ -427,7 +427,7 @@ class DicomImporterDialog(wx.Dialog):
         # Create a hash for each patient
         h = hashlib.sha1(patient['id'].encode('utf-8')).hexdigest()
         # Add the patient to the tree if they don't already exist
-        if not h in self.patients:
+        if h not in self.patients:
             self.patients[h] = {}
             self.patients[h]['demographics'] = patient
             name = str(patient['name']) + ' (' + patient['id'] + ')'
@@ -653,7 +653,7 @@ class DicomImporterDialog(wx.Dialog):
                 if 'series' in item and (item['series'] == image['series']):
                     appendImage = True
                 # used for RT plan / dose
-                if 'referenceframe' in item and (item['referenceframe'] == image['referenceframe']) and not 'numimages' in item:
+                if 'referenceframe' in item and (item['referenceframe'] == image['referenceframe']) and 'numimages' not in item:
                     appendImage = True
                 if appendImage:
                     filearray.append(image['filename'])
@@ -737,7 +737,7 @@ class DicomImporterDialog(wx.Dialog):
                 self.patient['rxdose'] = RxDose
             if (('ImageOrientationPatient' in dp.ds) and
                     dp.GetSOPClassUID() != 'rtdose'):
-                if not 'images' in self.patient:
+                if 'images' not in self.patient:
                     self.patient['images'] = []
                 self.patient['images'].append(dp.ds)
             elif (dp.ds.Modality in ['RTSTRUCT']):
