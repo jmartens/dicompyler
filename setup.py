@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 # setup.py
 """Setup script for dicompyler."""
 # Copyright (c) 2012-2017 Aditya Panchal
@@ -19,6 +18,7 @@ requires = [
 
 setup(
     name="dicompyler",
+    python_requires='>=3.7',
     version="0.5.0",
     include_package_data=True,
     packages=find_packages(),
@@ -44,11 +44,12 @@ setup(
         "Intended Audience :: Healthcare Industry",
         "Intended Audience :: Science/Research",
         "Development Status :: 4 - Beta",
-        "Programming Language :: Python :: 2",
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6'
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
         "Operating System :: OS Independent",
         "Topic :: Scientific/Engineering :: Medical Science Apps.",
         "Topic :: Scientific/Engineering :: Physics",
