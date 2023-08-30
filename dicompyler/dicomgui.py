@@ -347,7 +347,7 @@ class DicomImporterDialog(wx.Dialog):
         if not length:
             percentDone = 0
         else:
-            percentDone = int(100 * (num+1) / length)
+            percentDone = int(100 * (num + 1) / length)
 
         self.gaugeProgress.SetValue(percentDone)
         self.lblProgressPercent.SetLabel(str(percentDone))
@@ -501,7 +501,8 @@ class DicomImporterDialog(wx.Dialog):
                                 plan['treeid'] = self.tcPatients.AppendItem(
                                     structure['treeid'], name, 5)
                                 foundstructure = True
-                    # If no structures were found, add the plan to the study/series instead
+                    # If no structures were found, add the plan to the study/series
+                    # instead
                     if not foundstructure:
                         # If there is an image series, add a fake rtss to it
                         foundseries = False
@@ -559,7 +560,8 @@ class DicomImporterDialog(wx.Dialog):
                                 filearray = [dose['filename']]
                                 self.EnableItemSelection(
                                     patient, dose, filearray, rxdose)
-                    # If no plans were found, add the dose to the structure/study instead
+                    # If no plans were found, add the dose to the structure/study
+                    # instead
                     if not foundplan:
                         if dose['hasgrid']:
                             if dose['hasdvh']:
@@ -577,7 +579,10 @@ class DicomImporterDialog(wx.Dialog):
                                 foundstructure = False
                                 if 'rtss' in dose and (structureid == dose['rtss']):
                                     foundstructure = True
-                                if (structure['referenceframe'] == dose['referenceframe']):
+                                if (
+                                    structure["referenceframe"]
+                                    == dose["referenceframe"]
+                                ):
                                     foundstructure = True
                                 if foundstructure:
                                     badplan = self.tcPatients.AppendItem(
@@ -652,21 +657,33 @@ class DicomImporterDialog(wx.Dialog):
                 if 'series' in item and (item['series'] == image['series']):
                     appendImage = True
                 # used for RT plan / dose
-                if 'referenceframe' in item and (item['referenceframe'] == image['referenceframe']) and 'numimages' not in item:
+                if (
+                    "referenceframe" in item
+                    and (item["referenceframe"] == image["referenceframe"])
+                    and "numimages" not in item
+                ):
                     appendImage = True
                 if appendImage:
                     filearray.append(image['filename'])
         # Add the respective rtss files to the filearray if they exist
-        if 'structures' in patient:
-            for structureid, structure in patient['structures'].items():
-                if 'rtss' in item and (structureid == item['rtss']) or (structure['referenceframe'] == item['referenceframe']):
-                    filearray.append(structure['filename'])
+        if "structures" in patient:
+            for structureid, structure in patient["structures"].items():
+                if (
+                    "rtss" in item
+                    and (structureid == item["rtss"])
+                    or (structure["referenceframe"] == item["referenceframe"])
+                ):
+                    filearray.append(structure["filename"])
                     break
                 # If no referenced rtss, but ref'd rtplan, check rtplan->rtss
-                if 'rtplan' in item and 'plans' in patient:
-                    for planid, plan in patient['plans'].items():
-                        if (planid == item['rtplan']) and 'rtss' in plan and (structureid == plan['rtss']):
-                            filearray.append(structure['filename'])
+                if "rtplan" in item and "plans" in patient:
+                    for planid, plan in patient["plans"].items():
+                        if (
+                            (planid == item["rtplan"])
+                            and "rtss" in plan
+                            and (structureid == plan["rtss"])
+                        ):
+                            filearray.append(structure["filename"])
         # Add the respective rtplan files to the filearray if they exist
         if 'plans' in patient:
             for planid, plan in patient['plans'].items():
@@ -761,7 +778,7 @@ class DicomImporterDialog(wx.Dialog):
             for i, item in enumerate(images):
                 if (i > 0):
                     iop0 = np.array(item.ImageOrientationPatient)
-                    iop1 = np.array(images[i-1].ImageOrientationPatient)
+                    iop1 = np.array(images[i - 1].ImageOrientationPatient)
                     if (np.any(np.array(np.round(iop0 - iop1),
                                         dtype=np.int32))):
                         parallel = False
@@ -769,7 +786,7 @@ class DicomImporterDialog(wx.Dialog):
                     # Also test ImagePositionPatient, as some series
                     # use the same patient position for every slice
                     ipp0 = np.array(item.ImagePositionPatient)
-                    ipp1 = np.array(images[i-1].ImagePositionPatient)
+                    ipp1 = np.array(images[i - 1].ImagePositionPatient)
                     if not (np.any(np.array(np.round(ipp0 - ipp1),
                                             dtype=np.int32))):
                         parallel = False

@@ -26,7 +26,7 @@ class DVH:
     def GetVolumeConstraint(self, dose):
         """ Return the volume (in percent) of the structure that receives at
             least a specific dose in cGy. i.e. V100, V150."""
-        return self.dvh[int(dose/self.scaling)]
+        return self.dvh[int(dose / self.scaling)]
 
     def GetVolumeConstraintCC(self, dose, volumecc):
         """ Return the volume (in cc) of the structure that receives at least a
@@ -40,7 +40,7 @@ class DVH:
         """ Return the maximum dose (in cGy) that a specific volume (in percent)
             receives. i.e. D90, D20."""
 
-        return np.argmin(np.fabs(self.dvh - volume))*self.scaling
+        return np.argmin(np.fabs(self.dvh - volume)) * self.scaling
 
 
 def CalculateVolume(structure):
@@ -69,8 +69,8 @@ def CalculateVolume(structure):
 
             cArea = 0
             # Calculate the area based on the Surveyor's formula
-            for i in range(0, len(x)-1):
-                cArea = cArea + x[i]*y[i+1] - x[i+1]*y[i]
+            for i in range(0, len(x) - 1):
+                cArea = cArea + x[i] * y[i + 1] - x[i + 1] * y[i]
             cArea = abs(cArea / 2)
             contours.append({'area': cArea, 'data': contour['data']})
 
@@ -84,10 +84,12 @@ def CalculateVolume(structure):
         for i, contour in enumerate(contours):
             # Skip if this is the largest contour
             if i != largestIndex:
-                contour['inside'] = False
-                for point in contour['data']:
-                    if PointInPolygon(point[0], point[1], contours[largestIndex]['data']):
-                        contour['inside'] = True
+                contour["inside"] = False
+                for point in contour["data"]:
+                    if PointInPolygon(
+                        point[0], point[1], contours[largestIndex]["data"]
+                    ):
+                        contour["inside"] = True
                         # Assume if one point is inside, all will be inside
                         break
                 # If the contour is inside, subtract it from the total area
@@ -99,9 +101,8 @@ def CalculateVolume(structure):
 
         # If the plane is the first or last slice
         # only add half of the volume, otherwise add the full slice thickness
-        if ((n == 0) or (n == len(sPlanes)-1)):
-            sVolume = float(sVolume) + float(area) * \
-                float(structure['thickness']) * 0.5
+        if (n == 0) or (n == len(sPlanes) - 1):
+            sVolume = float(sVolume) + float(area) * float(structure["thickness"]) * 0.5
         else:
             sVolume = float(sVolume) + float(area) * \
                 float(structure['thickness'])
@@ -109,7 +110,7 @@ def CalculateVolume(structure):
         n = n + 1
 
     # Since DICOM uses millimeters, convert from mm^3 to cm^3
-    volume = sVolume/1000
+    volume = sVolume / 1000
 
     return volume
 
@@ -122,11 +123,11 @@ def PointInPolygon(x, y, poly):
     n = len(poly)
     inside = False
     p1x, p1y, p1z = poly[0]
-    for i in range(n+1):
+    for i in range(n + 1):
         p2x, p2y, p2z = poly[i % n]
         if y > min(p1y, p2y) and y <= max(p1y, p2y) and x <= max(p1x, p2x):
             if p1y != p2y:
-                xinters = (y-p1y)*(p2x-p1x)/(p2y-p1y)+p1x
+                xinters = (y - p1y) * (p2x - p1x) / (p2y - p1y) + p1x
             if p1x == p2x or x <= xinters:
                 inside = not inside
         p1x, p1y = p2x, p2y

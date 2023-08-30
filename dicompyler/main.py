@@ -196,9 +196,10 @@ class MainFrame(wx.Frame):
                            'shortHelp': "Open Patient...",
                            'eventhandler': self.OnOpenPatient}]
         for m, tool in enumerate(self.maintools):
-            self.toolbar.AddTool(m+1, tool['label'], tool['bmp'],
-                                 shortHelp=tool['shortHelp'])
-            self.Bind(wx.EVT_TOOL, tool['eventhandler'], id=m+1)
+            self.toolbar.AddTool(
+                m + 1, tool["label"], tool["bmp"], shortHelp=tool["shortHelp"]
+            )
+            self.Bind(wx.EVT_TOOL, tool["eventhandler"], id=m + 1)
         self.toolbar.Realize()
 
         # Bind interface events to the proper methods
@@ -244,39 +245,61 @@ class MainFrame(wx.Frame):
                 parent=self, appname='dicompyler', name='Options')
         sp = wx.StandardPaths.Get()
         self.generalpreftemplate = [
-            {'DICOM Import Settings':
-                [{'name': 'Import Location',
-                 'type': 'choice',
-                  'values': ['Remember Last Used', 'Always Use Default'],
-                  'default':'Remember Last Used',
-                  'callback':'general.dicom.import_location_setting'},
-                 {'name': 'Default Location',
-                 'type': 'directory',
-                  'default': sp.GetDocumentsDir(),
-                  'callback': 'general.dicom.import_location'}]
-             },
-            {'Plugin Settings':
-                [{'name': 'User Plugins Location',
-                 'type': 'directory',
-                  'default': os.path.join(datapath, 'plugins'),
-                  'callback': 'general.plugins.user_plugins_location',
-                  'restart': True}]
-             },
-            {'Calculation Settings':
-                [{'name': 'DVH Calculation',
-                 'type': 'choice',
-                  'values': ['Use RT Dose DVH if Present', 'Always Recalculate DVH'],
-                  'default':'Use RT Dose DVH if Present',
-                  'callback':'general.calculation.dvh_recalc'}]
-             },
-            {'Advanced Settings':
-                [{'name': 'Enable Detailed Logging',
-                 'type': 'checkbox',
-                  'default': False,
-                  'callback': 'general.advanced.detailed_logging'}]
-             }]
-        self.preftemplate = [{'General': self.generalpreftemplate}]
-        pub.sendMessage('preferences.updated.template', msg=self.preftemplate)
+            {
+                "DICOM Import Settings": [
+                    {
+                        "name": "Import Location",
+                        "type": "choice",
+                        "values": ["Remember Last Used", "Always Use Default"],
+                        "default": "Remember Last Used",
+                        "callback": "general.dicom.import_location_setting",
+                    },
+                    {
+                        "name": "Default Location",
+                        "type": "directory",
+                        "default": sp.GetDocumentsDir(),
+                        "callback": "general.dicom.import_location",
+                    },
+                ]
+            },
+            {
+                "Plugin Settings": [
+                    {
+                        "name": "User Plugins Location",
+                        "type": "directory",
+                        "default": os.path.join(datapath, "plugins"),
+                        "callback": "general.plugins.user_plugins_location",
+                        "restart": True,
+                    }
+                ]
+            },
+            {
+                "Calculation Settings": [
+                    {
+                        "name": "DVH Calculation",
+                        "type": "choice",
+                        "values": [
+                            "Use RT Dose DVH if Present",
+                            "Always Recalculate DVH",
+                        ],
+                        "default": "Use RT Dose DVH if Present",
+                        "callback": "general.calculation.dvh_recalc",
+                    }
+                ]
+            },
+            {
+                "Advanced Settings": [
+                    {
+                        "name": "Enable Detailed Logging",
+                        "type": "checkbox",
+                        "default": False,
+                        "callback": "general.advanced.detailed_logging",
+                    }
+                ]
+            },
+        ]
+        self.preftemplate = [{"General": self.generalpreftemplate}]
+        pub.sendMessage("preferences.updated.template", msg=self.preftemplate)
 
         # Initialize variables
         self.ptdata = {}
@@ -347,14 +370,14 @@ class MainFrame(wx.Frame):
                 for menuid, menu in self.menuDict.items():
                     self.menuPlugins.Delete(menuid)
                     # Remove the menu object from memory
-                    del(menu)
+                    del menu
                 self.menuDict = {}
             # Delete the previous export menus
             if len(self.menuExportDict):
                 self.menuExportItem.Enable(False)
                 for menuid, menu in self.menuExportDict.items():
                     self.menuExport.Delete(menuid)
-                    del(menu)
+                    del menu
                 self.menuExportDict = {}
             # Reset the preferences template
             self.preftemplate = [{'General': self.generalpreftemplate}]
@@ -395,18 +418,18 @@ class MainFrame(wx.Frame):
                         elif (props['plugin_type'] == 'menu'):
                             if not len(self.menuDict):
                                 self.menuPlugins.AppendSeparator()
-                            self.menuPlugins.Append(100+i, props['name']+'...')
+                            self.menuPlugins.Append(100 + i, props["name"] + "...")
                             plugin = p.plugin(self)
-                            self.menuDict[100+i] = plugin
-                            self.Bind(wx.EVT_MENU, plugin.pluginMenu, id=100+i)
+                            self.menuDict[100 + i] = plugin
+                            self.Bind(wx.EVT_MENU, plugin.pluginMenu, id=100 + i)
                         # Load the export menu plugins
                         elif (props['plugin_type'] == 'export'):
                             if not len(self.menuExportDict):
                                 self.menuExportItem.Enable(True)
-                            self.menuExport.Append(200+i, props['menuname'])
+                            self.menuExport.Append(200 + i, props["menuname"])
                             plugin = p.plugin(self)
-                            self.menuExportDict[200+i] = plugin
-                            self.Bind(wx.EVT_MENU, plugin.pluginMenu, id=200+i)
+                            self.menuExportDict[200 + i] = plugin
+                            self.Bind(wx.EVT_MENU, plugin.pluginMenu, id=200 + i)
                         # If a sub-plugin, mark it to be initialized later
                         else:
                             subplugins.append(p)
@@ -475,7 +498,8 @@ class MainFrame(wx.Frame):
             if 'plan' not in patient:
                 patient['plan'] = {}
             patient['plan']['rxdose'] = ptdata['rxdose']
-        # if the min/max/mean dose was not present, calculate it and save it for each structure
+        # if the min/max/mean dose was not present, calculate it and save it for
+        # each structure
         wx.CallAfter(progressFunc, 90, 100, 'Processing DVH data...')
         if ('dvhs' in patient) and ('structures' in patient):
             # If the DVHs are not present, calculate them
@@ -490,10 +514,12 @@ class MainFrame(wx.Frame):
                     if ((structure['name'].startswith('Applicator')) or
                             ("PixelData" not in patient['dose'].ds)):
                         continue
-                    wx.CallAfter(progressFunc,
-                                 10*i/len(patient['structures'])+90, 100,
-                                 'Calculating DVH for ' + structure['name'] +
-                                 '...')
+                    wx.CallAfter(
+                        progressFunc,
+                        10 * i / len(patient["structures"]) + 90,
+                        100,
+                        "Calculating DVH for " + structure["name"] + "...",
+                    )
                     # Limit DVH bins to 500 Gy due to high doses in brachy
                     dvh = dvhcalc.get_dvh(
                         ptdata['rtss'], patient['dose'].ds, key, 50000)
@@ -544,9 +570,10 @@ class MainFrame(wx.Frame):
         self.structureList = {}
         for id, structure in iter(sorted(self.structures.items())):
             # Only append structures, don't include applicators
-            if not(structure['name'].startswith('Applicator')):
-                self.cclbStructures.Append(structure['name'], structure, structure['color'],
-                                           refresh=False)
+            if not (structure["name"].startswith("Applicator")):
+                self.cclbStructures.Append(
+                    structure["name"], structure, structure["color"], refresh=False
+                )
         # Refresh the structure list manually since we didn't want it to refresh
         # after adding each structure
         self.cclbStructures.Layout()
@@ -575,13 +602,21 @@ class MainFrame(wx.Frame):
                 {'level': 50, 'color': wx.Colour(0, 0, 255)}, {'level': 30, 'color': wx.Colour(0, 0, 128)}]
             for isodose in self.isodoses:
                 # Calculate the absolute dose value
-                name = ' / ' + str("%.6g" %
-                                   (float(isodose['level']) * float(plan['rxdose']) / 100)) + \
-                    ' cGy'
-                if 'name' in isodose:
-                    name = name + ' [' + isodose['name'] + ']'
-                self.cclbIsodoses.Append(str(isodose['level'])+' %'+name, isodose, isodose['color'],
-                                         refresh=False)
+                name = (
+                    " / "
+                    + str(
+                        "%.6g" % (float(isodose["level"]) * float(plan["rxdose"]) / 100)
+                    )
+                    + " cGy"
+                )
+                if "name" in isodose:
+                    name = name + " [" + isodose["name"] + "]"
+                self.cclbIsodoses.Append(
+                    str(isodose["level"]) + " %" + name,
+                    isodose,
+                    isodose["color"],
+                    refresh=False,
+                )
         # Refresh the isodose list manually since we didn't want it to refresh
         # after adding each isodose
         self.cclbIsodoses.Layout()
@@ -623,8 +658,10 @@ class MainFrame(wx.Frame):
         # before setting it
         if 'volume' not in self.structures[structure_id]:
             # Use the volume units from the DVH if they are absolute volume
-            if structure_id in self.dvhs and (self.dvhs[structure_id].volume_units == 'cm3'):
-                self.structures[structure_id]['volume'] = self.dvhs[structure_id].volume
+            if structure_id in self.dvhs and (
+                self.dvhs[structure_id].volume_units == "cm3"
+            ):
+                self.structures[structure_id]["volume"] = self.dvhs[structure_id].volume
             # Otherwise calculate the volume from the structure data
             else:
                 self.structures[structure_id]['volume'] = dvhdata.CalculateVolume(
@@ -675,7 +712,7 @@ class MainFrame(wx.Frame):
     def OnStructureSelect(self, evt=None):
         """Load the properties of the currently selected structure."""
 
-        if (evt == None):
+        if evt is None:
             self.choiceStructure.SetSelection(0)
             choiceItem = 0
         else:
@@ -749,7 +786,7 @@ class MainFrame(wx.Frame):
                 run_old(*args, **kwargs)
             except (KeyboardInterrupt, SystemExit):
                 raise
-            except:
+            except BaseException:
                 sys.excepthook(*sys.exc_info())
         threading.Thread.run = Run
 
@@ -807,19 +844,24 @@ class MainFrame(wx.Frame):
                     # Load the import menu plugins
                     if not len(self.menuImportDict):
                         self.menuImportItem.Enable(True)
-                    self.menuImportDict[300+i] = self.menuImport.Append(
-                        300+i, props['menuname'])
+                    self.menuImportDict[300 + i] = self.menuImport.Append(
+                        300 + i, props["menuname"]
+                    )
                     pi = p.plugin(self)
-                    self.Bind(wx.EVT_MENU, pi.pluginMenu, id=300+i)
+                    self.Bind(wx.EVT_MENU, pi.pluginMenu, id=300 + i)
                     # If the import plugin has toolbar items, display them
                     if hasattr(pi, 'tools'):
                         for t, tool in enumerate(pi.tools):
                             self.maintools.append(tool)
                             self.toolbar.AddTool(
-                                (300+i)*10+t, tool['label'],
-                                tool['bmp'], shortHelp=tool['shortHelp'])
+                                (300 + i) * 10 + t,
+                                tool["label"],
+                                tool["bmp"],
+                                shortHelp=tool["shortHelp"],
+                            )
                             self.Bind(
-                                wx.EVT_TOOL, tool['eventhandler'], id=(300+i)*10+t)
+                                wx.EVT_TOOL, tool["eventhandler"], id=(300 + i) * 10 + t
+                            )
                         self.toolbar.Realize()
 
     def OnUpdateStatusBar(self, msg):
@@ -841,9 +883,12 @@ class MainFrame(wx.Frame):
         if hasattr(page, 'tools'):
             for t, tool in enumerate(page.tools):
                 self.toolbar.AddTool(
-                    (new+1)*10+t, tool['label'],
-                    tool['bmp'], shortHelp=tool['shortHelp'])
-                self.Bind(wx.EVT_TOOL, tool['eventhandler'], id=(new+1)*10+t)
+                    (new + 1) * 10 + t,
+                    tool["label"],
+                    tool["bmp"],
+                    shortHelp=tool["shortHelp"],
+                )
+                self.Bind(wx.EVT_TOOL, tool["eventhandler"], id=(new + 1) * 10 + t)
             self.toolbar.Realize()
         # For all other tabs, notify that they don't have focus anymore
         for i in range(self.notebook.GetPageCount()):
@@ -854,7 +899,7 @@ class MainFrame(wx.Frame):
                 # Delete all other toolbar items
                 if hasattr(page, 'tools'):
                     for t, tool in enumerate(page.tools):
-                        self.toolbar.DeleteTool((i+1)*10+t)
+                        self.toolbar.DeleteTool((i + 1) * 10 + t)
         evt.Skip()
 
     def OnKeyDown(self, evt):

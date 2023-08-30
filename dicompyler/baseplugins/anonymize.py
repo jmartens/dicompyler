@@ -176,7 +176,7 @@ class plugin:
                     os.path.join(path, modality.lower() + '.' + str(n) + '.dcm'))
                 i = i + 1
 
-        wx.CallAfter(progressFunc, length-1, length, 'Done')
+        wx.CallAfter(progressFunc, length - 1, length, "Done")
 
     def updateElement(self, data, element, value):
         """Updates the element only if it exists in the original DICOM data."""

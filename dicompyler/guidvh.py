@@ -43,8 +43,8 @@ class guiDVH:
                         colorarray = np.array(structures[id]['color'],
                                               dtype=float)
                         # Plot white as black so it is visible on the plot
-                        if np.size(np.nonzero(colorarray/255 - 1)):
-                            color = colorarray/255
+                        if np.size(np.nonzero(colorarray / 255 - 1)):
+                            color = colorarray / 255
                         else:
                             color = np.zeros(3)
                         prefix = prefixes[d] if prefixes is not None else None
@@ -76,7 +76,7 @@ class guiDVH:
         # if the structure color is white, change it to black
 
         dose = np.arange(len(dvh))
-        if scaling != None:
+        if scaling is not None:
             dose = dose * scaling[structure['id']]
         name = prefix + ' ' + \
             structure['name'] if prefix else structure['name']

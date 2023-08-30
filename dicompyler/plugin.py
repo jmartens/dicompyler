@@ -22,7 +22,7 @@ def import_plugins(userpath=None):
     # Get the base plugin path
     basepath = util.GetBasePluginsPath('')
     # Get the user plugin path if it has not been set
-    if (userpath == None):
+    if userpath is None:
         datapath = guiutil.get_data_dir()
         userpath = os.path.join(datapath, 'plugins')
     # Get the list of possible plugins from both paths
@@ -211,7 +211,7 @@ class PluginManagerDialog(wx.Dialog):
 
         item = evt.GetItem()
         n = self.tcPlugins.GetItemData(item)
-        if (n == None):
+        if n is None:
             self.panelProperties.Hide()
             return
         self.panelProperties.Show()
@@ -235,7 +235,7 @@ class PluginManagerDialog(wx.Dialog):
 
         item = evt.GetItem()
         n = self.tcPlugins.GetItemData(item)
-        if (n == None):
+        if n is None:
             evt.Veto()
 
     def OnExpandCollapseTree(self, evt):

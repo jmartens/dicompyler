@@ -142,11 +142,10 @@ class pluginTreeView(wx.Panel):
         """Recursively process the DICOM tree."""
         for i, data_element in enumerate(ds):
             # Check and update the progress of the recursion
-            if (length > 0):
-                wx.CallAfter(progressFunc, i, length,
-                             'Processing DICOM data...')
-                if (i == length-1):
-                    wx.CallAfter(progressFunc, i, len(ds), 'Done')
+            if length > 0:
+                wx.CallAfter(progressFunc, i, length, "Processing DICOM data...")
+                if i == length - 1:
+                    wx.CallAfter(progressFunc, i, len(ds), "Done")
             # Add the data_element to the tree if not a sequence element
             if data_element.VR != 'SQ':
                 cs = ds.get('SpecificCharacterSet', "ISO_IR 6")
@@ -159,7 +158,7 @@ class pluginTreeView(wx.Panel):
                 for i, ds in enumerate(data_element.value):
                     sq_item_description = data_element.name.replace(
                         " Sequence", "")
-                    sq_element_text = "%s %d" % (sq_item_description, i+1)
+                    sq_element_text = "%s %d" % (sq_item_description, i + 1)
                     # Add the child of the sequence to the tree
                     wx.CallAfter(addItemFunc, data_element, item,
                                  sq_element_text, needQueue=True)
@@ -167,7 +166,9 @@ class pluginTreeView(wx.Panel):
                     self.RecurseTreeThread(
                         ds, sq, addItemFunc, progressFunc, 0)
 
-    def AddItemTree(self, data_element, parent, sq_element_text="", needQueue=False, cs=None):
+    def AddItemTree(
+        self, data_element, parent, sq_element_text="", needQueue=False, cs=None
+    ):
         """Add a new item to the DICOM tree."""
 
         # Set the item if it is a child of a sequence element
@@ -193,10 +194,10 @@ class pluginTreeView(wx.Panel):
                             pydicom.charset.decode(
                                 pydicom.charset.decode(data_element, cs))
                         # Otherwise try decoding via ASCII encoding
-                        except:
+                        except BaseException:
                             try:
                                 value = str(data_element.value)
-                            except:
+                            except BaseException:
                                 logger.info(
                                     "Could not decode character set for %s.",
                                     data_element.name)

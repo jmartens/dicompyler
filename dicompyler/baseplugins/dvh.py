@@ -89,8 +89,8 @@ class pluginDVH(wx.Panel):
 
         # Adjust the control size for the result value labels
         te = self.lblType.GetTextExtent('0')
-        self.lblConstraintUnits.SetMinSize((te[0]*10, te[1]))
-        self.lblConstraintPercent.SetMinSize((te[0]*6, te[1]))
+        self.lblConstraintUnits.SetMinSize((te[0] * 10, te[1]))
+        self.lblConstraintPercent.SetMinSize((te[0] * 6, te[1]))
         self.Layout()
 
         # Bind ui events to the proper methods
@@ -164,7 +164,7 @@ class pluginDVH(wx.Panel):
     def OnStructureSelect(self, msg):
         """Load the constraints for the currently selected structure."""
 
-        if (msg['id'] == None):
+        if msg["id"] is None:
             self.EnableConstraints(False)
         else:
             self.structureid = msg['id']
@@ -206,7 +206,7 @@ class pluginDVH(wx.Panel):
             dvh = self.dvhs[self.structureid]
 
         # Check if the function was called via an event or not
-        if evt != None:
+        if evt is not None:
             constrainttype = evt.GetInt()
         else:
             constrainttype = self.choiceConstraint.GetSelection()
@@ -248,7 +248,7 @@ class pluginDVH(wx.Panel):
         """Update the results when the constraint value changes."""
 
         # Check if the function was called via an event or not
-        if evt != None:
+        if evt is not None:
             slidervalue = evt.GetInt()
         else:
             slidervalue = self.sliderConstraint.GetValue()
@@ -271,7 +271,7 @@ class pluginDVH(wx.Panel):
                                self.checkedstructures, ([absDose], [constraint.value]), structure_id)
         # Volume constraint in Gy
         elif (constrainttype == 1):
-            absDose = slidervalue*100
+            absDose = slidervalue * 100
             cc = dvh.volume_constraint(slidervalue, dvh.dose_units)
             constraint = dvh.relative_volume.volume_constraint(
                 slidervalue, dvh.dose_units)
@@ -291,9 +291,8 @@ class pluginDVH(wx.Panel):
                                self.checkedstructures,
                                ([dose.value * 100], [slidervalue]), structure_id)
         # Dose constraint in cc
-        elif (constrainttype == 3):
-            volumepercent = slidervalue*100 / \
-                self.structures[structure_id]['volume']
+        elif constrainttype == 3:
+            volumepercent = slidervalue * 100 / self.structures[structure_id]["volume"]
             dose = dvh.dose_constraint(slidervalue, dvh.volume_units)
             relative_dose = dvh.relative_dose().dose_constraint(
                 slidervalue, dvh.volume_units)

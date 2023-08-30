@@ -79,15 +79,17 @@ class plugin:
                 dlg.ShowModal()
             # If this is really a DICOM file, place it in the appropriate bin
             else:
-                if (('ImageOrientationPatient' in dp.ds) and not (dp.ds.Modality in ['RTDOSE'])):
-                    patient['images'] = []
-                    patient['images'].append(dp.ds)
-                elif (dp.ds.Modality in ['RTSTRUCT']):
-                    patient['rtss'] = dp.ds
-                elif (dp.ds.Modality in ['RTPLAN']):
-                    patient['rtplan'] = dp.ds
-                elif (dp.ds.Modality in ['RTDOSE']):
-                    patient['rtdose'] = dp.ds
+                if ("ImageOrientationPatient" in dp.ds) and not (
+                    dp.ds.Modality in ["RTDOSE"]
+                ):
+                    patient["images"] = []
+                    patient["images"].append(dp.ds)
+                elif dp.ds.Modality in ["RTSTRUCT"]:
+                    patient["rtss"] = dp.ds
+                elif dp.ds.Modality in ["RTPLAN"]:
+                    patient["rtplan"] = dp.ds
+                elif dp.ds.Modality in ["RTDOSE"]:
+                    patient["rtdose"] = dp.ds
                 else:
                     patient[dp.ds.Modality] = dp.ds
                 # Since we have decided to use this location to import from,

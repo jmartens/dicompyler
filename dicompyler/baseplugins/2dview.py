@@ -95,30 +95,41 @@ class plugin2DView(wx.Panel):
 
         # Set up preferences
         self.preferences = [
-            {'Drawing Settings':
-                [{'name': 'Isodose Line Style',
-                 'type': 'choice',
-                  'values': drawingstyles,
-                  'default': 'Solid',
-                  'callback': '2dview.drawingprefs.isodose_line_style'},
-                 {'name': 'Isodose Fill Opacity',
-                 'type': 'range',
-                  'values': [0, 100],
-                  'default':25,
-                  'units':'%',
-                  'callback':'2dview.drawingprefs.isodose_fill_opacity'},
-                 {'name': 'Structure Line Style',
-                 'type': 'choice',
-                  'values': drawingstyles,
-                  'default': 'Solid',
-                  'callback': '2dview.drawingprefs.structure_line_style'},
-                 {'name': 'Structure Fill Opacity',
-                 'type': 'range',
-                  'values': [0, 100],
-                  'default':50,
-                  'units':'%',
-                  'callback':'2dview.drawingprefs.structure_fill_opacity'}]
-             }]
+            {
+                "Drawing Settings": [
+                    {
+                        "name": "Isodose Line Style",
+                        "type": "choice",
+                        "values": drawingstyles,
+                        "default": "Solid",
+                        "callback": "2dview.drawingprefs.isodose_line_style",
+                    },
+                    {
+                        "name": "Isodose Fill Opacity",
+                        "type": "range",
+                        "values": [0, 100],
+                        "default": 25,
+                        "units": "%",
+                        "callback": "2dview.drawingprefs.isodose_fill_opacity",
+                    },
+                    {
+                        "name": "Structure Line Style",
+                        "type": "choice",
+                        "values": drawingstyles,
+                        "default": "Solid",
+                        "callback": "2dview.drawingprefs.structure_line_style",
+                    },
+                    {
+                        "name": "Structure Fill Opacity",
+                        "type": "range",
+                        "values": [0, 100],
+                        "default": 50,
+                        "units": "%",
+                        "callback": "2dview.drawingprefs.structure_fill_opacity",
+                    },
+                ]
+            }
+        ]
 
         # Set up pubsub
         pub.subscribe(self.OnUpdatePatient, 'patient.updated.parsed_data')
@@ -141,8 +152,8 @@ class plugin2DView(wx.Panel):
             self.imagenum = 1
             # If more than one image, set first image to middle of the series
             if (len(self.images) > 1):
-                self.imagenum = int(len(self.images)/2)
-            image = self.images[self.imagenum-1]
+                self.imagenum = int(len(self.images) / 2)
+            image = self.images[self.imagenum - 1]
             self.structurepixlut = image.GetPatientToPixelLUT()
             # Determine the default window and level of the series
             self.window, self.level = image.GetDefaultImageWindowLevel()
@@ -269,8 +280,12 @@ class plugin2DView(wx.Panel):
         # on the closest plane, within a threshold
         if (zmin < 0.5):
             # Set the color of the contour
-            color = wx.Colour(structure['color'][0], structure['color'][1],
-                              structure['color'][2], int(self.structure_fill_opacity*255/100))
+            color = wx.Colour(
+                structure["color"][0],
+                structure["color"][1],
+                structure["color"][2],
+                int(self.structure_fill_opacity * 255 / 100),
+            )
             # Set fill (brush) color, transparent for external contour
             if (('type' in structure) and (structure['type'].lower() == 'external')):
                 gc.SetBrush(wx.Brush(color, style=wx.TRANSPARENT))
@@ -305,14 +320,19 @@ class plugin2DView(wx.Panel):
         level = isodose['data']['level'] * self.rxdose / \
             (self.dosedata['dosegridscaling'] * 10000)
         contours = isodosegen.trace(level)
-        # matplotlib 1.0.0 and above returns vertices and segments, but we only need vertices
-        if (mplversion >= "1.0.0"):
-            contours = contours[:len(contours)//2]
+        # matplotlib 1.0.0 and above returns vertices and segments, but we only
+        # need vertices
+        if mplversion >= "1.0.0":
+            contours = contours[: len(contours) // 2]
         if len(contours):
 
             # Set the color of the isodose line
-            color = wx.Colour(isodose['color'][0], isodose['color'][1],
-                              isodose['color'][2], int(self.isodose_fill_opacity*255/100))
+            color = wx.Colour(
+                isodose["color"][0],
+                isodose["color"][1],
+                isodose["color"][2],
+                int(self.isodose_fill_opacity * 255 / 100),
+            )
             gc.SetBrush(wx.Brush(color))
             gc.SetPen(wx.Pen(tuple(isodose['color']),
                              style=self.GetLineDrawingStyle(self.isodose_line_style)))
@@ -323,12 +343,16 @@ class plugin2DView(wx.Panel):
             for c in contours:
                 # Move the origin to the last point of the contour
                 path.MoveToPoint(
-                    self.dosepixlut[0][int(c[-1][0])]+1, self.dosepixlut[1][int(c[-1][1])]+1)
+                    self.dosepixlut[0][int(c[-1][0])] + 1,
+                    self.dosepixlut[1][int(c[-1][1])] + 1,
+                )
                 # Add a line to the rest of the points
                 # Note: draw every other point since there are too many points
                 for p in c[::2]:
                     path.AddLineToPoint(
-                        self.dosepixlut[0][int(p[0])]+1, self.dosepixlut[1][int(p[1])]+1)
+                        self.dosepixlut[0][int(p[0])] + 1,
+                        self.dosepixlut[1][int(p[1])] + 1,
+                    )
                 # Close the subpath in preparation for the next contour
                 path.CloseSubpath()
             # Draw the final isodose path
@@ -352,7 +376,12 @@ class plugin2DView(wx.Panel):
         # look up the value in the LUT and find the corresponding pixel pair
         for p, point in enumerate(contour):
             for xv, xval in enumerate(pixlut[0]):
-                if (xval > point[0] and not prone and not feetfirst) or (xval < point[0]) and feetfirst or prone:
+                if (
+                    (xval > point[0] and not prone and not feetfirst)
+                    or (xval < point[0])
+                    and feetfirst
+                    or prone
+                ):
                     break
             for yv, yval in enumerate(pixlut[1]):
                 if (yval > point[1] and not prone) or (yval < point[1] and prone):
@@ -367,7 +396,7 @@ class plugin2DView(wx.Panel):
         x = []
         y = []
         # Determine if the patient is prone or supine
-        imdata = self.images[self.imagenum-1].GetImageData()
+        imdata = self.images[self.imagenum - 1].GetImageData()
         prone = -1 if 'p' in imdata['patientposition'].lower() else 1
         feetfirst = -1 if 'ff' in imdata['patientposition'].lower() else 1
         # Get the pixel spacing
@@ -418,20 +447,21 @@ class plugin2DView(wx.Panel):
                 gc.DrawRectangle(0, 0, width, height)
 
             image = guiutil.convert_pil_to_wx(
-                self.images[self.imagenum-1].GetImage(self.window, self.level))
+                self.images[self.imagenum - 1].GetImage(self.window, self.level)
+            )
             bmp = wx.Bitmap(image)
             self.bwidth, self.bheight = image.GetSize()
 
             # Center the image
-            transx = self.pan[0]+(width-self.bwidth*self.zoom)/(2*self.zoom)
-            transy = self.pan[1]+(height-self.bheight*self.zoom)/(2*self.zoom)
+            transx = self.pan[0] + (width - self.bwidth * self.zoom) / (2 * self.zoom)
+            transy = self.pan[1] + (height - self.bheight * self.zoom) / (2 * self.zoom)
             gc.Translate(transx, transy)
             gc.DrawBitmap(bmp, 0, 0, self.bwidth, self.bheight)
             gc.SetBrush(wx.Brush(wx.Colour(0, 0, 255, 30)))
             gc.SetPen(wx.Pen(wx.Colour(0, 0, 255, 30)))
 
             # Draw the structures if present
-            imdata = self.images[self.imagenum-1].GetImageData()
+            imdata = self.images[self.imagenum - 1].GetImageData()
             self.z = '%.2f' % imdata['position'][2]
 
             # Determine whether the patient is prone or supine
@@ -473,22 +503,22 @@ class plugin2DView(wx.Panel):
             te = gc.GetFullTextExtent(imtext)
             gc.DrawText(imtext, 10, 7)
             impos = "Position: " + str(self.z) + " mm"
-            gc.DrawText(impos, 10, 7+te[1]*1.1)
+            gc.DrawText(impos, 10, 7 + te[1] * 1.1)
             if ("%.3f" % self.zoom == "1.000"):
                 zoom = "1"
             else:
                 zoom = "%.3f" % self.zoom
             imzoom = "Zoom: " + zoom + ":1"
-            gc.DrawText(imzoom, 10, height-17)
+            gc.DrawText(imzoom, 10, height - 17)
             imsize = "Image Size: " + \
                 str(self.bheight) + "x" + str(self.bwidth) + " px"
-            gc.DrawText(imsize, 10, height-17-te[1]*1.1)
+            gc.DrawText(imsize, 10, height - 17 - te[1] * 1.1)
             imwinlevel = "W/L: " + str(self.window) + ' / ' + str(self.level)
             te = gc.GetFullTextExtent(imwinlevel)
-            gc.DrawText(imwinlevel, width-te[0]-7, 7)
+            gc.DrawText(imwinlevel, width - te[0] - 7, 7)
             impatpos = "Patient Position: " + imdata['patientposition']
             te = gc.GetFullTextExtent(impatpos)
-            gc.DrawText(impatpos, width-te[0]-7, height-17)
+            gc.DrawText(impatpos, width - te[0] - 7, height - 17)
 
             # Send message with the current image number and various properties
             pub.sendMessage('2dview.updated.image',
@@ -518,7 +548,7 @@ class plugin2DView(wx.Panel):
     def OnUpdatePositionValues(self, evt=None):
         """Update the current position and value(s) of the mouse cursor."""
 
-        if (evt == None):
+        if evt is None:
             pos = np.array(self.mousepos)
         else:
             pos = np.array(evt.GetPosition())
@@ -529,10 +559,16 @@ class plugin2DView(wx.Panel):
 
         # Determine the coordinates with respect to the current zoom and pan
         w, h = self.GetClientSize()
-        xpos = int(pos[0]/self.zoom-self.pan[0]-(w-self.bwidth*self.zoom) /
-                   (2*self.zoom))
-        ypos = int(pos[1]/self.zoom-self.pan[1]-(h-self.bheight*self.zoom) /
-                   (2*self.zoom))
+        xpos = int(
+            pos[0] / self.zoom
+            - self.pan[0]
+            - (w - self.bwidth * self.zoom) / (2 * self.zoom)
+        )
+        ypos = int(
+            pos[1] / self.zoom
+            - self.pan[1]
+            - (h - self.bheight * self.zoom) / (2 * self.zoom)
+        )
 
         # Save the coordinates so they can be used by the 2dview plugins
         self.xpos = xpos
@@ -553,12 +589,13 @@ class plugin2DView(wx.Panel):
                 " px Y:" + str(ypos) + " px"
 
             # Lookup the current image and find the value of the current pixel
-            image = self.images[self.imagenum-1]
+            image = self.images[self.imagenum - 1]
             # Rescale the slope and intercept of the image if present
-            if ('RescaleIntercept' in image.ds and
-                    'RescaleSlope' in image.ds):
-                pixel_array = image.ds.pixel_array*image.ds.RescaleSlope + \
-                    image.ds.RescaleIntercept
+            if "RescaleIntercept" in image.ds and "RescaleSlope" in image.ds:
+                pixel_array = (
+                    image.ds.pixel_array * image.ds.RescaleSlope
+                    + image.ds.RescaleIntercept
+                )
             else:
                 pixel_array = image.ds.pixel_array
             value = "Value: " + str(pixel_array[ypos, xpos])
@@ -570,11 +607,15 @@ class plugin2DView(wx.Panel):
                 ydpos = np.argmin(np.fabs(np.array(self.dosepixlut[1]) - ypos))
                 dosegrid = self.dose.GetDoseGrid(float(self.z))
                 if dosegrid != []:
-                    dose = dosegrid[ydpos, xdpos] * \
-                        self.dosedata['dosegridscaling']
-                    value = value + " / Dose: " + \
-                        str('%.4g' % dose) + " Gy / " + \
-                        str('%.4g' % float(dose*10000/self.rxdose)) + " %"
+                    dose = dosegrid[ydpos, xdpos] * self.dosedata["dosegridscaling"]
+                    value = (
+                        value
+                        + " / Dose: "
+                        + str(f"{dose:.4g}")
+                        + " Gy / "
+                        + str(f"{float(dose * 10000 / self.rxdose):.4g}")
+                        + " %"
+                    )
         # Send a message with the text to the 2nd and 3rd statusbar sections
         pub.sendMessage('main.update_statusbar', msg={1: text, 2: value})
 
@@ -623,7 +664,7 @@ class plugin2DView(wx.Panel):
         if len(self.images):
             delta = evt.GetWheelDelta()
             rot = evt.GetWheelRotation()
-            rot = rot/delta
+            rot = rot / delta
             if (rot >= 1) and (self.imagenum > 1):
                 self.imagenum -= 1
                 self.Refresh()
@@ -685,8 +726,8 @@ class plugin2DView(wx.Panel):
 
         delta = self.mousepos - evt.GetPosition()
         self.mousepos = evt.GetPosition()
-        self.pan[0] -= (delta[0]/self.zoom)
-        self.pan[1] -= (delta[1]/self.zoom)
+        self.pan[0] -= delta[0] / self.zoom
+        self.pan[1] -= delta[1] / self.zoom
         self.Refresh()
 
     def OnRightIsDown(self, evt):

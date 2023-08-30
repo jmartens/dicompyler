@@ -653,7 +653,7 @@ class RubberbandPainter(Painter):
             x1, x2 = x2, x1
         if y2 < y1:
             y1, y2 = y2, y1
-        return [int(z) for z in (x1, y1, x2-x1, y2-y1)]
+        return [int(z) for z in (x1, y1, x2 - x1, y2 - y1)]
 
     def drawValue(self, dc, value):
         """
@@ -901,17 +901,17 @@ class FigurePrintout(wx.Printout):
 
         # PPI_P: Pixels Per Inch of the Printer
         wPPI_P, hPPI_P = (float(x) for x in self.GetPPIPrinter())
-        PPI_P = (wPPI_P + hPPI_P)/2.0
+        PPI_P = (wPPI_P + hPPI_P) / 2.0
 
         # PPI: Pixels Per Inch of the DC
         if self.IsPreview():
             wPPI, hPPI = (float(x) for x in self.GetPPIScreen())
         else:
             wPPI, hPPI = wPPI_P, hPPI_P
-        PPI = (wPPI + hPPI)/2.0
+        PPI = (wPPI + hPPI) / 2.0
 
         # Pg_Px: Size of the page (pixels)
-        wPg_Px,  hPg_Px = (float(x) for x in self.GetPageSizePixels())
+        wPg_Px, hPg_Px = (float(x) for x in self.GetPageSizePixels())
 
         # Dev_Px: Size of the DC (pixels)
         wDev_Px, hDev_Px = (float(x) for x in self.GetDC().GetSize())
@@ -925,8 +925,8 @@ class FigurePrintout(wx.Printout):
         hM = 0.75
 
         # Area: printable area within the margins (inches)
-        wArea = wPg - 2*wM
-        hArea = hPg - 2*hM
+        wArea = wPg - 2 * wM
+        hArea = hPg - 2 * hM
 
         # Fig: printing size of the figure
         # hFig is at a maximum when wFig == wArea
@@ -935,7 +935,7 @@ class FigurePrintout(wx.Printout):
         wFig = aspectRatio * hFig
 
         # scale factor = device size / page size (equals 1.0 for real printing)
-        S = ((wDev_Px/PPI)/wPg + (hDev_Px/PPI)/hPg)/2.0
+        S = ((wDev_Px / PPI) / wPg + (hDev_Px / PPI) / hPg) / 2.0
 
         # Fig_Dx: scaled printing size of the figure (device pixels)
         # M_Dx: scaled minimum margins (device pixels)
@@ -1665,7 +1665,7 @@ class VectorBuffer:
 
         resize = False
         if nextRow == data.shape[0]:
-            nR = int(np.ceil(self.data.shape[0]*1.5))
+            nR = int(np.ceil(self.data.shape[0] * 1.5))
             resize = True
 
         if resize:
@@ -1724,7 +1724,7 @@ class MatrixBuffer:
         resize = True
         if nextRow == data.shape[0]:
             nC = data.shape[1]
-            nR = int(np.ceil(self.data.shape[0]*1.5))
+            nR = int(np.ceil(self.data.shape[0] * 1.5))
             if nC < nPts:
                 nC = nPts
         elif data.shape[1] < nPts:

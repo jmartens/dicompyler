@@ -7,9 +7,11 @@
 #    available at https://github.com/bastula/dicompyler/
 
 import os
+
 import wx
-from wx.xrc import XRCCTRL, XmlResource
 from pubsub import pub
+from wx.xrc import XRCCTRL, XmlResource
+
 from dicompyler import guiutil, util
 
 try:
@@ -96,9 +98,12 @@ class PreferencesManager():
 
         query = msg.split('.')
         v = self.values
-        if query[0] in v and query[1] in v[query[0]] and query[2] in v[query[0]][query[1]]:
-            pub.sendMessage(
-                msg, topic=msg, msg=v[query[0]][query[1]][query[2]])
+        if (
+            query[0] in v
+            and query[1] in v[query[0]]
+            and query[2] in v[query[0]][query[1]]
+        ):
+            pub.sendMessage(msg, topic=msg, msg=v[query[0]][query[1]][query[2]])
 
     def GetPreferenceValues(self, msg):
         """Publish the requested values for preference setting group."""
@@ -206,8 +211,9 @@ class PreferencesDialog(wx.Dialog):
                 restart = str('*' if 'restart' in setting else '')
                 if ('restart' in setting) and (setting['restart'] == True):
                     show_restart = True
-                t = wx.StaticText(panel, -1, setting['name']+restart+':',
-                                  style=wx.ALIGN_RIGHT)
+                t = wx.StaticText(
+                    panel, -1, setting["name"] + restart + ":", style=wx.ALIGN_RIGHT
+                )
                 fgsizer.Add(t, 0, wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT)
                 sizer = wx.BoxSizer(wx.HORIZONTAL)
 
@@ -225,8 +231,8 @@ class PreferencesDialog(wx.Dialog):
                     self.callbackdict[c] = setting['callback']
                     self.Bind(wx.EVT_CHOICE, self.OnUpdateChoice, c)
                 # If this is a checkbox setting
-                elif (setting['type'] == 'checkbox'):
-                    c = wx.CheckBox(panel, -1, setting['name']+restart)
+                elif setting["type"] == "checkbox":
+                    c = wx.CheckBox(panel, -1, setting["name"] + restart)
                     c.SetValue(value)
                     sizer.Add(c, 0, wx.ALIGN_CENTER)
                     # Remove the label preceding the checkbox
@@ -356,9 +362,13 @@ def GetValue(values, setting):
     """Get the saved setting value."""
 
     # Look for the saved value and return it if it exists
-    query = setting['callback'].split('.')
-    value = setting['default']
-    if query[0] in values and query[1] in values[query[0]] and query[2] in values[query[0]][query[1]]:
+    query = setting["callback"].split(".")
+    value = setting["default"]
+    if (
+        query[0] in values
+        and query[1] in values[query[0]]
+        and query[2] in values[query[0]][query[1]]
+    ):
         value = values[query[0]][query[1]][query[2]]
     # Otherwise return the default value
     return value
@@ -382,8 +392,9 @@ def SetValue(values, setting, value):
 
 def main():
 
-    import tempfile
     import os
+    import tempfile
+
     import wx
     from pubsub import pub
 
@@ -404,47 +415,69 @@ def main():
 
     # Set up the preferences template
     grp1template = [
-        {'Panel 1 Preference Group 1':
-            [{'name': 'Choice Setting',
-             'type': 'choice',
-              'values': ['Choice 1', 'Choice 2', 'Choice 3'],
-              'default':'Choice 2',
-              'callback':'panel1.prefgrp1.choice_setting'},
-             {'name': 'Directory setting',
-             'type': 'directory',
-              'default': str(sp.GetDocumentsDir()),
-              'callback': 'panel1.prefgrp1.directory_setting'}]
-         },
-        {'Panel 1 Preference Group 2':
-            [{'name': 'Range Setting',
-             'type': 'range',
-              'values': [0, 100],
-              'default':50,
-              'units':'%',
-              'callback':'panel1.prefgrp2.range_setting'}]
-         }]
+        {
+            "Panel 1 Preference Group 1": [
+                {
+                    "name": "Choice Setting",
+                    "type": "choice",
+                    "values": ["Choice 1", "Choice 2", "Choice 3"],
+                    "default": "Choice 2",
+                    "callback": "panel1.prefgrp1.choice_setting",
+                },
+                {
+                    "name": "Directory setting",
+                    "type": "directory",
+                    "default": str(sp.GetDocumentsDir()),
+                    "callback": "panel1.prefgrp1.directory_setting",
+                },
+            ]
+        },
+        {
+            "Panel 1 Preference Group 2": [
+                {
+                    "name": "Range Setting",
+                    "type": "range",
+                    "values": [0, 100],
+                    "default": 50,
+                    "units": "%",
+                    "callback": "panel1.prefgrp2.range_setting",
+                }
+            ]
+        },
+    ]
     grp2template = [
-        {'Panel 2 Preference Group 1':
-         [{'name': 'Range Setting',
-             'type': 'range',
-             'values': [0, 100],
-             'default':50,
-           'units':'%',
-             'callback':'panel2.prefgrp1.range_setting',
-             'restart':True}]
-         },
-        {'Panel 2 Preference Group 2':
-         [{'name': 'Directory setting',
-             'type': 'directory',
-             'default': str(sp.GetUserDataDir()),
-             'callback': 'panel2.prefgrp2.directory_setting'},
-          {'name': 'Choice Setting',
-             'type': 'choice',
-             'values': ['Choice 1', 'Choice 2', 'Choice 3'],
-             'default':'Choice 2',
-             'callback':'panel2.prefgrp2.choice_setting'}]
-         }]
-    preftemplate = [{'Panel 1': grp1template}, {'Panel 2': grp2template}]
+        {
+            "Panel 2 Preference Group 1": [
+                {
+                    "name": "Range Setting",
+                    "type": "range",
+                    "values": [0, 100],
+                    "default": 50,
+                    "units": "%",
+                    "callback": "panel2.prefgrp1.range_setting",
+                    "restart": True,
+                }
+            ]
+        },
+        {
+            "Panel 2 Preference Group 2": [
+                {
+                    "name": "Directory setting",
+                    "type": "directory",
+                    "default": str(sp.GetUserDataDir()),
+                    "callback": "panel2.prefgrp2.directory_setting",
+                },
+                {
+                    "name": "Choice Setting",
+                    "type": "choice",
+                    "values": ["Choice 1", "Choice 2", "Choice 3"],
+                    "default": "Choice 2",
+                    "callback": "panel2.prefgrp2.choice_setting",
+                },
+            ]
+        },
+    ]
+    preftemplate = [{"Panel 1": grp1template}, {"Panel 2": grp2template}]
 
     def print_template_value(msg):
         """Print the received template message."""
@@ -468,7 +501,7 @@ def main():
     try:
         os.remove(filename)
     except OSError:
-        print('\nCould not delete: '+filename+'. Please delete it manually.')
+        print("\nCould not delete: " + filename + ". Please delete it manually.")
 
 
 if __name__ == '__main__':

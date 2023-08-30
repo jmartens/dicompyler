@@ -83,15 +83,15 @@ def get_credits():
         our_credits = cf.readlines()
         for i, v in enumerate(our_credits):
             if (v == "Lead Developer\n"):
-                developers.append(our_credits[i+1].strip())
-            if (v == "Developers\n"):
-                for d in our_credits[i+1:len(our_credits)]:
-                    if (d.strip() == ""):
+                developers.append(our_credits[i + 1].strip())
+            if v == "Developers\n":
+                for d in our_credits[i + 1 : len(our_credits)]:
+                    if d.strip() == "":
                         break
                     developers.append(d.strip())
-            if (v == "Artists\n"):
-                for a in our_credits[i+1:len(our_credits)]:
-                    if (a.strip() == ""):
+            if v == "Artists\n":
+                for a in our_credits[i + 1 : len(our_credits)]:
+                    if a.strip() == "":
                         break
                     artists.append(a.strip())
     return {'developers': developers, 'artists': artists}
