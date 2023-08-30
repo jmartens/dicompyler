@@ -37,10 +37,12 @@ urls = {Homepage = "https://github.com/bastula/dicompyler/"}
 requires-python = ">=3.7"
 dependencies = [
     "dicompyler-core>=0.5.2",
+    "legacycontour@git+https://github.com/matplotlib/legacycontour.git@4b2ad15dbcbe730db9e0e3692dfde06fd3ebcd69",
     "matplotlib>=2.2,<3.8",
     "numpy>=1.2.1",
     "pillow>=1.0",
     "pydicom>=2.2,<3",
+    "Pypubsub>=4.0",
     "wxPython>=4.0.0b2",
 ]
 
