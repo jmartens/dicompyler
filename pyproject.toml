@@ -48,9 +48,26 @@ optional = true
 [tool.poetry.group.dev.dependencies]
 pre-commit = "*"
 poetry = "^1.5"
+isort = "^5.0.1"
+flynt = "<0.78,>=0.76"
 
 [tool.poetry.scripts]
 dicompyler = "dicompyler.main:start"
+
+[tool.black]
+skip-string-normalization = false
+target-version = ["py37", "py38", "py39", "py310", "py311"]
+
+[tool.autopep8]
+ignore = "E203"
+max-line-length = 88
+aggressive = 1
+
+[tool.isort]
+profile = "black"
+
+[tool.pyupgrade]
+py37plus = true
 
 [build-system]
 requires = ["poetry-core"]
